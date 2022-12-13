@@ -7,6 +7,9 @@ class Buscar(forms.Form):
 
 class BuscarViajes(forms.Form):
     destino = forms.CharField(max_length=100) #prueba
+
+class BuscarCompras(forms.Form):
+    descripcion = forms.CharField(max_length=100) #prueba
     
 class FamiliarForm(forms.ModelForm):
     class Meta:

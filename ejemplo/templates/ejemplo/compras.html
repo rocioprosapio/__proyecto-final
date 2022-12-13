@@ -1,0 +1,16 @@
+{% extends 'ejemplo/base_compras.html' %}
+{%block titulo %}
+Lista de Compras en mis viajes
+{% endblock %}
+{%block contenido%}
+    <a href="/panel-compras/alta">Nueva compra</a>
+    <ul>
+    {% for compras in lista_compras %}
+        <li>
+            Id: {{compras.id}} Articulo: {{compras.articulo}}, Descripcion: {{compras.descripcion}}, Sucursal: {{compras.sucursal}}, Unidades adquiridas: {{compras.unidades}}
+            <a href="/panel-compras/actualizar/{{ compras.id }}">Actulizar</a>
+            <a href="/panel-compras/borrar/{{ compras.id }}">Borrar</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

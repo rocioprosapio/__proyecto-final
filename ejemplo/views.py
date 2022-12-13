@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404 # <----- Nuevo import
 from ejemplo.models import Familiar, Viajes, Compras
-from ejemplo.forms import Buscar, BuscarViajes, FamiliarForm, ViajesForm, ComprasForm # <--- NUEVO IMPORT
+from ejemplo.forms import Buscar, BuscarViajes, BuscarCompras, FamiliarForm, ViajesForm, ComprasForm # <--- NUEVO IMPORT
 from django.views import View # <-- NUEVO IMPORT 
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 
@@ -12,9 +12,6 @@ def monstrar_familiares(request):
     lista_familiares = Familiar.objects.all()
     return render(request, "ejemplo/familiares.html", {"lista_familiares": lista_familiares})
 
-def mostrar_viajes(request):
-    lista_viajes = Viajes.objects.all()
-    return render(request, "ejemplo/viajes.html", {"lista_viajes": lista_viajes})
 
 class BuscarFamiliar(View):
     form_class = Buscar
@@ -92,6 +89,9 @@ class BorrarFamiliar(View):
       familiares = Familiar.objects.all()
       return render(request, self.template_name, {'lista_familiares': familiares})
     
+def mostrar_viajes(request):
+    lista_viajes = Viajes.objects.all()
+    return render(request, "ejemplo/viajes.html", {"lista_viajes": lista_viajes})
 
 class BuscarViaje(View):
     form_class = BuscarViajes
@@ -128,3 +128,42 @@ class ViajesActualizar(UpdateView):
       template_name = 'ejemplo/altaviaje_form.html'
       success_url = "/panel-viajes"
       fields = ["destino", "transporte", "cantidad_dias"]
+      
+
+def mostrar_compras(request):
+    lista_compras = Compras.objects.all()
+    return render(request, "ejemplo/compras.html", {"lista_compras": lista_compras})
+
+class BuscarCompra(View):
+    form_class = BuscarCompras
+    template_name = 'ejemplo/buscarcompras.html'
+    initial = {"descripcion":""}
+    def get(self, request):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form':form})
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            descripcion = form.cleaned_data.get("descripcion")
+            lista_compras = Compras.objects.filter(descripcion__icontains=descripcion).all() 
+            form = self.form_class(initial=self.initial)
+            return render(request, self.template_name, {'form':form, 
+                                                        'lista_compras':lista_compras})
+        return render(request, self.template_name, {"form": form})
+
+class ComprasCrear(CreateView):
+    model = Compras
+    template_name = 'ejemplo/altacompra_form.html'
+    success_url = "/panel-compras"
+    fields = ["articulo", "descripcion", "sucursal", "unidades"]
+
+class ComprasBorrar(DeleteView):
+      model = Compras
+      template_name = 'ejemplo/eliminarcompras_delete.html'
+      success_url = "/panel-compras"
+
+class ComprasActualizar(UpdateView):
+      model = Compras
+      template_name = 'ejemplo/altacompra_form.html'
+      success_url = "/panel-compras"
+      fields = ["articulo", "descripcion", "sucursal", "unidades"]

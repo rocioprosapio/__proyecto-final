@@ -1,0 +1,16 @@
+{% extends 'ejemplo/base_viajes.html' %}
+{% block titulo%} Ingresar la descripcion del producto comprado {% endblock %}
+{% block contenido %}
+  
+  <form action="/panel-compras/buscar" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Buscar">
+  </form>
+
+  {% for compras in lista_compras %}
+      <ul>
+          <li> Descripción: {{compras.descripcion}}, Sucursal: {{compras.sucursal}}, Unidades adquiridas: {{compras.unidades}}</li>
+      </ul>
+  {% endfor %}
+{% endblock %}

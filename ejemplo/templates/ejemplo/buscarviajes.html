@@ -2,7 +2,7 @@
 {% block titulo%} Por favor, ingrese el destino del viaje buscado {% endblock %}
 {% block contenido %}
   
-  <form action="/mis-viajes/buscar" method="post">
+  <form action="/panel-viajes/buscar" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Buscar">
