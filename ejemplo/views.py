@@ -35,7 +35,7 @@ class AltaFamiliar(View):
     
     form_class = FamiliarForm
     template_name = 'ejemplo/alta_familiar.html'
-    initial = {"nombre":"", "direccion":"", "numero_pasaporte":""}
+    initial = {"nombre":"", "destino_visitado":"", "numero_pasaporte":""}
 
     def get(self, request):
         form = self.form_class(initial=self.initial)
@@ -56,7 +56,7 @@ class AltaFamiliar(View):
 class ActualizarFamiliar(View):
     form_class = FamiliarForm
     template_name = 'ejemplo/actualizar_familiar.html'
-    initial = {"nombre":"", "direccion":"", "numero_pasaporte":""}
+    initial = {"nombre":"", "destino_visitado":"", "numero_pasaporte":""}
   
   # prestar atención ahora el method get recibe un parametro pk == primaryKey == identificador único
     def get(self, request, pk): 
