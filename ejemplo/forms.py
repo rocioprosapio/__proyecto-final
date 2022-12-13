@@ -14,7 +14,7 @@ class BuscarCompras(forms.Form):
 class FamiliarForm(forms.ModelForm):
     class Meta:
         model = Familiar
-        fields = ['nombre', 'direccion', 'numero_pasaporte', 'destino_visitado']
+        fields = ['nombre', 'direccion', 'numero_pasaporte']
 
 class ViajesForm(forms.ModelForm):
     class Meta:

@@ -35,7 +35,7 @@ class AltaFamiliar(View):
     
     form_class = FamiliarForm
     template_name = 'ejemplo/alta_familiar.html'
-    initial = {"nombre":"", "direccion":"", "numero_pasaporte":"", "destino_visitado":""}
+    initial = {"nombre":"", "direccion":"", "numero_pasaporte":""}
 
     def get(self, request):
         form = self.form_class(initial=self.initial)
@@ -45,7 +45,7 @@ class AltaFamiliar(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
-            msg_exito = f"Se cargo con éxito el familiar y su viaje realizado {form.cleaned_data.get('nombre')}"
+            msg_exito = f"Se cargo con éxito el familiar {form.cleaned_data.get('nombre')}"
             form = self.form_class(initial=self.initial)
             return render(request, self.template_name, {'form':form, 
                                                         'msg_exito': msg_exito})
@@ -56,7 +56,7 @@ class AltaFamiliar(View):
 class ActualizarFamiliar(View):
     form_class = FamiliarForm
     template_name = 'ejemplo/actualizar_familiar.html'
-    initial = {"nombre":"", "direccion":"", "numero_pasaporte":"", "destino_visitado":""}
+    initial = {"nombre":"", "direccion":"", "numero_pasaporte":""}
   
   # prestar atención ahora el method get recibe un parametro pk == primaryKey == identificador único
     def get(self, request, pk): 
@@ -70,7 +70,7 @@ class ActualizarFamiliar(View):
       form = self.form_class(request.POST ,instance=familiar)
       if form.is_valid():
         form.save()
-        msg_exito = f"Se actualizó con éxito el familiar y su viaje realizado {form.cleaned_data.get('nombre')}"
+        msg_exito = f"Se actualizó con éxito el familiar {form.cleaned_data.get('nombre')}"
         form = self.form_class(initial=self.initial)
         return render(request, self.template_name, {'form':form, 
                                                     'familiar': familiar,
