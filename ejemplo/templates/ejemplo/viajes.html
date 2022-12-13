@@ -1,0 +1,16 @@
+{% extends 'ejemplo/base_viajes.html' %}
+{%block titulo %}
+Lista de viajes
+{% endblock %}
+{%block contenido%}
+    <a href="/panel-viajes/alta">Nuevo viaje</a>
+    <ul>
+    {% for viajes in lista_viajes %}
+        <li>
+            Id: {{viajes.id}} Destino: {{viajes.destino}}, Transporte: {{viajes.transporte}}, Cantidad de días: {{viajes.cantidad_dias}}
+            <a href="/panel-viajes/actualizar/{{ viajes.id }}">Actulizar</a>
+            <a href="/panel-viajes/borrar/{{ viajes.id }}">Borrar</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

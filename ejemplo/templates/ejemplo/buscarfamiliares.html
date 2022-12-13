@@ -1,11 +1,11 @@
-{% extends 'ejemplo/base.html' %}
+{% extends 'ejemplo/base_familiares.html' %}
 {% block titulo%} Buscar Familiares por nombre {% endblock %}
 {% block contenido %}
   
   <form action="/mi-familia/buscar" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Submit">
+    <input type="submit" value="Buscar">
   </form>
 
   {% for familiar in lista_familiares %}

@@ -1,0 +1,16 @@
+{% extends 'ejemplo/base_viajes.html' %}
+{% block titulo%} Por favor, ingrese el destino del viaje buscado {% endblock %}
+{% block contenido %}
+  
+  <form action="/mis-viajes/buscar" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Buscar">
+  </form>
+
+  {% for viajes in lista_viajes %}
+      <ul>
+          <li> Destino: {{viajes.destino}}, Transporte: {{viajes.transporte}}, Cantidad de días: {{viajes.cantidad_dias}}</li>
+      </ul>
+  {% endfor %}
+{% endblock %}

@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404 # <----- Nuevo import
-from ejemplo.models import Familiar
-from ejemplo.forms import Buscar, FamiliarForm # <--- NUEVO IMPORT
+from ejemplo.models import Familiar, Viajes, Compras
+from ejemplo.forms import Buscar, BuscarViajes, FamiliarForm, ViajesForm, ComprasForm # <--- NUEVO IMPORT
 from django.views import View # <-- NUEVO IMPORT 
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+
 
 def index(request):
     return render(request, "ejemplo/saludar.html")
@@ -10,9 +12,13 @@ def monstrar_familiares(request):
     lista_familiares = Familiar.objects.all()
     return render(request, "ejemplo/familiares.html", {"lista_familiares": lista_familiares})
 
+def mostrar_viajes(request):
+    lista_viajes = Viajes.objects.all()
+    return render(request, "ejemplo/viajes.html", {"lista_viajes": lista_viajes})
+
 class BuscarFamiliar(View):
     form_class = Buscar
-    template_name = 'ejemplo/buscar.html'
+    template_name = 'ejemplo/buscarfamiliares.html'
     initial = {"nombre":""}
     def get(self, request):
         form = self.form_class(initial=self.initial)
@@ -85,4 +91,40 @@ class BorrarFamiliar(View):
       familiar.delete()
       familiares = Familiar.objects.all()
       return render(request, self.template_name, {'lista_familiares': familiares})
-      
+    
+
+class BuscarViaje(View):
+    form_class = BuscarViajes
+    template_name = 'ejemplo/buscarviajes.html'
+    initial = {"destino":""}
+    def get(self, request):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form':form})
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            destino = form.cleaned_data.get("destino")
+            lista_viajes = Viajes.objects.filter(destino__icontains=destino).all() 
+            form = self.form_class(initial=self.initial)
+            return render(request, self.template_name, {'form':form, 
+                                                        'lista_viajes':lista_viajes})
+        return render(request, self.template_name, {"form": form})
+
+
+class ViajesCrear(CreateView):
+      model = Viajes
+      template_name = 'ejemplo/altaviaje_form.html'
+      success_url = "/panel-viajes"
+      fields = ["destino", "transporte", "cantidad_dias"]
+
+
+class ViajesBorrar(DeleteView):
+      model = Viajes
+      template_name = 'ejemplo/eliminarviajes_delete.html'
+      success_url = "/panel-viajes"
+
+class ViajesActualizar(UpdateView):
+      model = Viajes
+      template_name = 'ejemplo/altaviaje_form.html'
+      success_url = "/panel-viajes"
+      fields = ["destino", "transporte", "cantidad_dias"]
