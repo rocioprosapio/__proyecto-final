@@ -1,0 +1,10 @@
+{% extends 'viajes_blog/base.html' %}
+
+{% block contenido %}
+<h1>Esta seguro que quiere borrar el post {{object.texto}}</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="SI">
+</form>
+{% endblock %}

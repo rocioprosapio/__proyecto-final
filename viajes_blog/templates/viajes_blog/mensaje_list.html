@@ -1,0 +1,17 @@
+{% extends 'viajes_blog/base.html' %}
+
+{% block contenido %}
+{% if user.is_authenticated %}
+    <a href="{% url 'viajes-blog-mensajes-crear' %}">Crear mensaje</a>
+{% endif %}
+<ul class="list-group"> 
+{% for mensaje in object_list %}
+    <li class="list-group-item">
+        {{mensaje.enviado_el}} - - {{mensaje.nombre}}    
+        <a href="{% url 'viajes-blog-mensaje-detalle' mensaje.id %}">Ver</a>
+        <a href="{% url 'viajes-blog-mensajes-borrar' mensaje.id %}">Borrar</a>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}
+
